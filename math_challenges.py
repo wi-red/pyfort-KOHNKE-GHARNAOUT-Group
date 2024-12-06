@@ -1,5 +1,6 @@
 import random
 
+#----------------FACTORIAL GAME----------------#
 def factorial(n):
 
     N = 1
@@ -10,10 +11,10 @@ def factorial(n):
     return(N) 
 
 def math_challenge_factorial():
-
+    print("\n#----------------FACTORIAL GAME----------------#\n")
     n = random.randint(1,10)
 
-    print(f"Math challenger: Calculate the factorial of {n} " )
+    print(f"Math challenger: Calculate the factorial of {n}.\n" )
 
     X = None
     X_int = False 
@@ -21,6 +22,7 @@ def math_challenge_factorial():
     while not X_int:
         try:
             X = int(input("Your answer is: "))
+            print(" ")
             X_int = True
         except ValueError:
             print("Your answer should be an integer! Please try again.")
@@ -32,6 +34,80 @@ def math_challenge_factorial():
 
 
 if math_challenge_factorial() == True:
-    print("Correct ! you win a key.")
+    print("Correct answer! you've won a key.\n")
 else:
-    print("Wrong answer... Try again.")
+    print("Wrong answer... Better luck next time.\n")
+
+#----------------PRIME GAME----------------#
+print("\n#----------------PRIME GAME----------------#\n")
+def is_prime(n):
+    c=0
+    for i in range(1,n+1):
+        if n%i==0:
+            c+=1
+    if c>2:
+        return False
+    else:
+        return True
+#print(is_prime(21))
+
+def nearest_prime(n):
+    c=n+1
+    while not is_prime(c):
+        c+=1
+    return c
+
+def match_challenge_prime():
+    N=random.randint(10,20)
+    X_int = False
+    print(f"Math Challenge: Find the nearest prime to {N}.\n")
+    while not X_int:
+        try:
+            X=int(input("Your answer is : "))
+            print(" ")
+            if X==nearest_prime(N):
+                return("Correct answer! You've won a key.\n")
+            else:
+                return("Wrong answer... Better luck next time!\n")
+        except ValueError:
+            print("\nYour value should be an integer ! Please try again.")
+print(match_challenge_prime())
+
+#----------------MATH ROULETTE GAME----------------#
+def math_roulette_challenge():
+    print("\n#----------------MATH ROULETTE GAME----------------#\n")
+    L1=['*','+','-']
+    L2=[]
+    X_int=False
+    for i in range(5):
+        L2.append(random.randint(1,20))
+    op=L1[random.randint(0,2)]
+    if op=="*":
+        print("Calculate the result by combining these numbers with multiplication\n")
+        result=L2[0]
+        for i in range(1,5):
+            result*= L2[i]
+    elif op=='+':
+        result=L2[0]
+        print("Calculate the result by combining these numbers with addition\n")
+        for i in range(1,5):
+            result+= L2[i]
+    elif op == '-':
+        result=L2[0]
+        print("Calculate the result by combining these numbers with subtraction\n")
+        for i in range(1,5):
+            result -= L2[i]
+    print("|TESTING ONLY| ANSWER IS:",result)
+    print("Numbers on the roulette:",L2,"\n")
+    while not X_int:
+        try:
+            X=int(input("Your answer is: "))
+            print(" ")
+            if X==result:
+                return("Correct answer! You've won a key\n")
+            else:
+                return("Wrong answer... Better luck next time!\n")
+        except ValueError:
+            print("\nYour value should be an integer ! Please try again.\n")
+
+print(math_roulette_challenge())
