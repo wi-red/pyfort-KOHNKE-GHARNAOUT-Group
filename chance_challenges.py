@@ -6,8 +6,9 @@ def shell_game():
     attempts = 0
     max_attempts = 2
     
+    print("\n#----------------SHELL GAME----------------#\n")
     print("Welcome to the Shell Game!")
-    print(f"Try to guess which shell hides the key. You have {max_attempts} attempts.")
+    print(f"\nTry to guess which shell hides the key. You have {max_attempts} attempts.")
     
     # Randomly select the shell hiding the key
     key_shell = random.choice(shells)
@@ -38,12 +39,9 @@ def shell_game():
 
 def roll_dice_game():
     max_attempts = 3
-    dices={
-        1 : 
-}
+    print("\n#----------------FACTORIAL GAME----------------#\n")
     print("Welcome to the Rolling Dice Game!")
-    print("The first to roll a 6 wins the game. You have 3 attempts.")
-
+    print("\nThe first to roll a 6 wins the game. You have 3 attempts.")
     for attempt in range(1, max_attempts + 1):
         print(f"\nAttempt {attempt}/{max_attempts}")
         
@@ -70,7 +68,18 @@ def roll_dice_game():
     print("\nNeither you nor the Game Master rolled a 6. The game is a draw.")
     return False
 
+def chance_challenge():
+    challenges=["shell","dice"]
+    x=challenges[random.randint(0,1)]
+    if x=="shell":
+        return shell_game()
+    return roll_dice_game()
+    
+
+
+
 
 if __name__ == "__main__":
-    shell_game()
-    roll_dice_game()
+    #shell_game()
+    #roll_dice_game()
+    chance_challenge()
