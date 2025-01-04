@@ -12,9 +12,10 @@ def factorial(n):
 
 def math_challenge_factorial():
     print("\n#----------------FACTORIAL GAME----------------#\n")
+    print("Welcome to the Factorial Game!")
     n = random.randint(1,10)
 
-    print(f"Math challenger: Calculate the factorial of {n}.\n" )
+    print(f"\nMath challenger: Calculate the factorial of {n}.\n" )
 
     X = None
     X_int = False 
@@ -28,18 +29,14 @@ def math_challenge_factorial():
             print("Your answer should be an integer! Please try again.")
 
     if X == factorial(n):
-        return(True)
+        return("Correct answer! you've won a key.\n")
     else:
-        return(False)
+        return("Wrong answer... Better luck next time.\n")
 
 
-if math_challenge_factorial() == True:
-    print("Correct answer! you've won a key.\n")
-else:
-    print("Wrong answer... Better luck next time.\n")
 
 #----------------PRIME GAME----------------#
-print("\n#----------------PRIME GAME----------------#\n")
+
 def is_prime(n):
     c=0
     for i in range(1,n+1):
@@ -58,9 +55,11 @@ def nearest_prime(n):
     return c
 
 def match_challenge_prime():
+    print("\n#----------------PRIME GAME----------------#\n")
+    print("Welcome to the Prime Game!")
     N=random.randint(10,20)
     X_int = False
-    print(f"Math Challenge: Find the nearest prime to {N}.\n")
+    print(f"\nMath Challenge: Find the nearest prime to {N}.\n")
     while not X_int:
         try:
             X=int(input("Your answer is : "))
@@ -71,7 +70,6 @@ def match_challenge_prime():
                 return("Wrong answer... Better luck next time!\n")
         except ValueError:
             print("\nYour value should be an integer ! Please try again.")
-print(match_challenge_prime())
 
 #----------------MATH ROULETTE GAME----------------#
 def math_roulette_challenge():
@@ -79,11 +77,12 @@ def math_roulette_challenge():
     L1=['*','+','-']
     L2=[]
     X_int=False
+    print("Welcome to the Roulette Game!")
     for i in range(5):
         L2.append(random.randint(1,20))
     op=L1[random.randint(0,2)]
     if op=="*":
-        print("Calculate the result by combining these numbers with multiplication\n")
+        print("\nCalculate the result by combining these numbers with multiplication\n")
         result=L2[0]
         for i in range(1,5):
             result*= L2[i]
@@ -110,4 +109,20 @@ def math_roulette_challenge():
         except ValueError:
             print("\nYour value should be an integer ! Please try again.\n")
 
-print(math_roulette_challenge())
+
+def maths_challenge():
+    challenges=["factorial","prime","roulette"]
+    z=challenges[random.randint(0,2)]
+    print(z)
+    if z == "factorial":
+        return print(math_challenge_factorial())
+    elif z == "prime":
+        return print(match_challenge_prime())
+    else:
+        return print(math_roulette_challenge())
+    
+
+if __name__ == "__main__" :
+    maths_challenge()
+
+#WORK LEFT: COMMENTING THE FUNCTIONS
