@@ -30,8 +30,8 @@ A Python-based game inspired by the famous TV show Fort Boyard. The goal is to l
 ### 🚀 Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/pyfort-yourname-group.git
-   cd pyfort-yourname-group
+   git clone https://github.com/wi-red/pyfort-KOHNKE-GHARNAOUT-Group18.git
+   cd pyfort-KOHNKE-GHARNAOUT-Group18
    ```
 2. Set up the environment:
    - Install Python 3.8+ if not already installed.
