@@ -12,10 +12,10 @@ def load_riddles(file):
 
 import random
 
-def pere_fouras_riddles(file):
+def pere_fouras_riddles():
   
     # Load the riddles from the file
-    riddles = load_riddles(file)
+    riddles = load_riddles('data/PFRiddles.json')
     if not riddles:
         print("No riddles available. Ensure the file is properly formatted and present.")
         return False
@@ -54,5 +54,5 @@ def pere_fouras_riddles(file):
 
 
 if __name__ == "__main__":
-    pere_fouras_riddles("PFRiddles.json")
+    pere_fouras_riddles()
 
