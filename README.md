@@ -103,11 +103,6 @@ Provides utility functions for game management, including team creation, player 
 
 ## 📓 Logbook
 
-### 📆 Project Chronology
-- **Start Date**: [Date]
-- **Milestones**:
-  - Team creation module: Completed [Date].
-  - Challenge implementations: Completed [Date].
 
 ### 🛠️ Task Distribution
 - **Samy Gharnaout**: 1/2 of Maths Challenges, logic and chance challenges, main, utility_functions as well  
