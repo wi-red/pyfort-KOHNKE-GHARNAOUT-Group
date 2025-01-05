@@ -1,100 +1,143 @@
-# Battleship Game Implementation
-import random
+import random  # Importing the random module for generating random positions
 
 def next_player(player):
-    """Returns the index of the next player."""
+    """
+    Switches to the other player.
+    :param player: The index of the current player (0 or 1).
+    :return: The index of the next player (1 or 0).
+    """
     return 1 - player
 
 def empty_grid():
-    """Generates and returns an empty 3x3 grid."""
+    """
+    Creates and returns a 3x3 empty grid.
+    :return: A 3x3 list filled with spaces (" ").
+    """
     return [[" " for _ in range(3)] for _ in range(3)]
 
 def display_grid(grid, message):
-    """Displays the grid with a message."""
+    """
+    Displays the grid with a contextual message.
+    :param grid: The grid to display (3x3 list).
+    :param message: A string providing context about the displayed grid.
+    """
     print(message)
     for row in grid:
-        print(" | ".join(row))
-        print("-" * 9)
+        print(" | ".join(row))  # Join row elements with a vertical bar
+        print("-" * 9)  # Separator between rows
 
 def ask_position():
-    """Asks the user for a position on the grid."""
+    """
+    Prompts the user for a valid position on the grid.
+    Ensures the input is within bounds and correctly formatted.
+    :return: A tuple (row, col) representing the 0-based grid position.
+    """
     while True:
         try:
-            position = input("Enter the position (row,column) between 1 and 3 (e.g., 1,2): ")
-            row, col = map(int, position.split(","))
-            if 1 <= row <= 3 and 1 <= col <= 3:
-                return row - 1, col - 1
+            position = input("Enter a position (row,column) [1-3]: ")  # Prompt for input
+            row, col = map(int, position.split(","))  # Parse input into row and column
+            row, col = row - 1, col - 1  # Convert to 0-based indexing
+            if 0 <= row < 3 and 0 <= col < 3:  # Check bounds
+                return row, col
             else:
-                print("Invalid input. Please enter numbers between 1 and 3.")
-        except ValueError:
-            print("Invalid format. Please use the format row,column.")
+                print("Position out of bounds. Please try again.")
+        except (ValueError, IndexError):  # Handle invalid input format
+            print("Invalid format. Please enter in the format row,column (e.g., 1,2).")
 
 def initialize():
-    """Initializes the player's grid by placing two boats."""
-    grid = empty_grid()
-    for i in range(2):
-        while True:
-            print(f"Boat {i + 1}")
-            row, col = ask_position()
-            if grid[row][col] == " ":
-                grid[row][col] = "B"
-                break
-            else:
-                print("Position already occupied. Choose another.")
+    """
+    Initializes the player's grid by placing 2 boats.
+    :return: A 3x3 grid with boats ("B") placed.
+    """
+    grid = empty_grid()  # Start with an empty grid
+    boats_placed = 0
+    print("Place your 2 boats on the grid.")
+    while boats_placed < 2:
+        row, col = ask_position()  # Get boat position from user
+        if grid[row][col] == " ":
+            grid[row][col] = "B"  # Mark the position with a boat
+            boats_placed += 1
+            display_grid(grid, "Your grid after placing a boat:")
+        else:
+            print("That position is already occupied. Choose another.")
     return grid
 
 def turn(player, player_shots_grid, opponent_grid):
-    """Handles a player's turn."""
-    display_grid(player_shots_grid, "History of your previous shots:")
-    print(f"Player {player + 1}, it's your turn to shoot!")
-    while True:
-        row, col = ask_position()
-        if player_shots_grid[row][col] == " ":
-            if opponent_grid[row][col] == "B":
-                print("Hit, sunk!")
-                player_shots_grid[row][col] = "x"
-                opponent_grid[row][col] = "x"
+    """
+    Handles a single turn for the current player.
+    :param player: The index of the current player (0 for human, 1 for game master).
+    :param player_shots_grid: The current player's shot grid.
+    :param opponent_grid: The opponent's grid containing boat positions.
+    """
+    if player == 0:  # Human player's turn
+        print("Your turn!")
+        display_grid(player_shots_grid, "Your shot history:")
+        while True:
+            row, col = ask_position()  # Get shot position
+            if player_shots_grid[row][col] == " ":
+                break  # Valid shot position
             else:
-                print("Splash...")
-                player_shots_grid[row][col] = "."
-            break
-        else:
-            print("You already shot there. Try another position.")
+                print("You already shot there. Try again.")
+    else:  # Game master's turn
+        print("Game master's turn!")
+        while True:
+            row, col = random.randint(0, 2), random.randint(0, 2)  # Random shot
+            if player_shots_grid[row][col] == " ":
+                break
+
+    # Check if the shot hits a boat
+    if opponent_grid[row][col] == "B":
+        print("Hit!")
+        player_shots_grid[row][col] = "x"  # Mark hit on shot grid
+        opponent_grid[row][col] = "x"  # Mark hit on opponent's grid
+    else:
+        print("Miss!")
+        player_shots_grid[row][col] = "."  # Mark miss on shot grid
 
 def has_won(player_shots_grid):
-    """Checks if all boats on the opponent's grid have been sunk."""
-    return sum(row.count("x") for row in player_shots_grid) == 2
+    """
+    Checks if all opponent boats are sunk.
+    :param player_shots_grid: The current player's shot grid.
+    :return: True if all boats are sunk, False otherwise.
+    """
+    return sum(row.count("x") for row in player_shots_grid) == 2  # 2 boats sunk
 
 def battleship_game():
-    """Orchestrates the entire Battleship game."""
-    print("Welcome to Battleship! Each player must place 2 boats on a 3x3 grid.")
-    print("Boats are represented by 'B', missed shots by '.', and hits by 'x'.")
+    """
+    Orchestrates the Battleship game.
+    Players alternate turns trying to sink each other's boats.
+    :return: True if the human player wins, False otherwise.
+    """
+    print("Welcome to Battleship! Place 2 boats on your 3x3 grid. Sink all enemy boats to win!")
 
-    # Player 1 initialization
-    print("Player 1, place your boats:")
-    player1_grid = initialize()
+    # Initialize grids for the human player and the game master
+    player_grid = initialize()
+    game_master_grid = empty_grid()
 
-    # Player 2 initialization
-    print("Player 2, place your boats:")
-    player2_grid = initialize()
+    # Randomly place 2 boats on the game master's grid
+    game_master_boats = 0
+    while game_master_boats < 2:
+        row, col = random.randint(0, 2), random.randint(0, 2)
+        if game_master_grid[row][col] == " ":
+            game_master_grid[row][col] = "B"
+            game_master_boats += 1
 
-    # Empty shot grids
-    player1_shots = empty_grid()
-    player2_shots = empty_grid()
+    # Create empty shot grids for both players
+    player_shots_grid = empty_grid()
+    game_master_shots_grid = empty_grid()
 
-    current_player = 0
+    # Game loop
+    current_player = 0  # Human player starts
     while True:
-        if current_player == 0:
-            turn(0, player1_shots, player2_grid)
-            if has_won(player1_shots):
-                print("Player 1 wins!")
-                break
-        else:
-            turn(1, player2_shots, player1_grid)
-            if has_won(player2_shots):
-                print("Player 2 wins!")
-                break
-        current_player = next_player(current_player)
+        if current_player == 0:  # Human player's turn
+            turn(0, player_shots_grid, game_master_grid)
+            if has_won(player_shots_grid):  # Check if human player wins
+                print("Congratulations! You have won a key!")
+                return True
+        else:  # Game master's turn
+            turn(1, game_master_shots_grid, player_grid)
+            if has_won(game_master_shots_grid):  # Check if game master wins
+                print("The game master has won! Better luck next time!")
+                return False
 
-if __name__ == "__main__":
-    battleship_game()
+        current_player = next_player(current_player)  # Switch turns

@@ -76,9 +76,6 @@ def chance_challenge():
     return roll_dice_game()
     
 
-
-
-
 if __name__ == "__main__":
     #shell_game()
     #roll_dice_game()
